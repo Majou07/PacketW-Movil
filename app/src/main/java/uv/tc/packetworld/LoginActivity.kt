@@ -6,7 +6,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
+import com.koushikdutta.ion.Ion
 import uv.tc.packetworld.dto.RSAutenticacionConductor
+import uv.tc.packetworld.pojo.Colaborador
+import uv.tc.packetworld.util.Conexion
 
 class LoginActivity : AppCompatActivity() {
 
@@ -55,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
         Ion.with(this@LoginActivity)
             .load(
                 "POST",
-                "${Constantes().URL_API}autenticacion/conductor"
+                "${Conexion().URL_API}autenticacion/conductor"
             )
             .setHeader(
                 "Content-Type",
