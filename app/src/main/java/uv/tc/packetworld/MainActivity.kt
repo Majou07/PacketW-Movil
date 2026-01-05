@@ -97,6 +97,18 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
+            //mostramos la lista
+            binding.listEnvios.adapter = AdaptadorEnvio(this, lista)
+
+            binding.listEnvios.setOnItemClickListener { _, _, position, _ ->
+                val envioSeleccionado = lista[position]
+
+                val intent = Intent(this, DetalleEnvioActivity::class.java)
+                intent.putExtra("guia", envioSeleccionado.numeroGuia)
+                startActivity(intent)
+            }
+
+
         } catch (e: Exception) {
             Toast.makeText(
                 this,
