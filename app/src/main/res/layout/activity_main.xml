@@ -1,19 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:orientation="vertical"
+    android:padding="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/imgPerfil"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_launcher"
+            android:contentDescription="Foto perfil" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- BOTÓN EDITAR PERFIL -->
+        <Button
+            android:id="@+id/btnEditarPerfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editar perfil"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp" />
+
+        <!-- DATOS DEL CONDUCTOR -->
+        <TextView
+            android:id="@+id/tvNombreCompleto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre del conductor"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/tvCorreo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="correo@ejemplo.com"
+            android:layout_marginTop="5dp" />
+
+        <!-- TÍTULO ENVÍOS -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Envíos asignados"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="30dp" />
+
+        <!-- LISTA DE ENVÍOS -->
+        <ListView
+            android:id="@+id/listEnvios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="1dp"
+            android:layout_marginTop="10dp" />
+
+    </LinearLayout>
+</ScrollView>
