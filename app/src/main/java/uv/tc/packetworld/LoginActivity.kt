@@ -1,4 +1,4 @@
-package uv.tc.packetworld.util
+package uv.tc.packetworld
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
