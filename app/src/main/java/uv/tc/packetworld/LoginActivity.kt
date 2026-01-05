@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.koushikdutta.ion.Ion
+import uv.tc.packetworld.databinding.ActivityLoginBinding
 import uv.tc.packetworld.dto.RSAutenticacionConductor
 import uv.tc.packetworld.pojo.Colaborador
 import uv.tc.packetworld.util.Conexion
