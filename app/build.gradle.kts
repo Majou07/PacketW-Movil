@@ -33,6 +33,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    viewBinding {
+        enable = true
+    }
 }
 
 dependencies {
@@ -48,7 +51,4 @@ dependencies {
 
     implementation("com.koushikdutta.ion:ion:2.+")
     implementation("com.google.code.gson:gson:2.13.2")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("androidx.recyclerview:recyclerview:1.3.2")
 }
