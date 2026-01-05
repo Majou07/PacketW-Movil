@@ -44,16 +44,11 @@ class DetalleEnvioActivity : AppCompatActivity() {
 
     private fun configurarSpinner() {
         val estatus = arrayOf(
-            "en transito",
-            "detenido",
-            "entregado",
-            "cancelado"
+            "en transito", "detenido", "entregado", "cancelado"
         )
 
         val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            estatus
+            this, android.R.layout.simple_spinner_item, estatus
         )
         adapter.setDropDownViewResource(
             android.R.layout.simple_spinner_dropdown_item
@@ -67,16 +62,11 @@ class DetalleEnvioActivity : AppCompatActivity() {
                 "GET",
                 "${Conexion().URL_API}envios/$numeroGuia"
             )
-            .asString()
-            .setCallback { e, result ->
+            .asString().setCallback { e, result ->
                 if (e == null && result != null) {
                     mostrarDetalle(result)
                 } else {
-                    Toast.makeText(
-                        this,
-                        "Error al cargar detalle",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(this, "Error al cargar detalle", Toast.LENGTH_LONG).show()
                 }
             }
     }
