@@ -2,121 +2,85 @@ package uv.tc.packetworld
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
 import com.koushikdutta.ion.Ion
-import uv.tc.packetworld.databinding.ActivityLoginBinding
-import uv.tc.packetworld.dto.RSAutenticacionConductor
+import org.json.JSONObject
 import uv.tc.packetworld.pojo.Colaborador
 import uv.tc.packetworld.util.Conexion
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityLoginBinding
+    private lateinit var etNumeroPersonal: EditText
+    private lateinit var etContrasena: EditText
+    private lateinit var btnLogin: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_login)
 
-        binding.btnIngresar.setOnClickListener {
-            verificarCredenciales()
+        etNumeroPersonal = findViewById(R.id.etNumeroPersonal)
+        etContrasena = findViewById(R.id.etPassword)
+        btnLogin = findViewById(R.id.btnIngresar)
+
+        btnLogin.setOnClickListener {
+            val numeroPersonal = etNumeroPersonal.text.toString().trim()
+            val contrasena = etContrasena.text.toString().trim()
+
+            if (numeroPersonal.isEmpty() || contrasena.isEmpty()) {
+                Toast.makeText(this, "Completa los campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            autenticar(numeroPersonal, contrasena)
         }
     }
 
-    private fun verificarCredenciales() {
-        if (camposValidos()) {
-            consumirAPI(
-                binding.etNumeroPersonal.text.toString(),
-                binding.etPassword.text.toString()
-            )
-        }
-    }
+    private fun autenticar(numeroPersonal: String, contrasena: String) {
 
-    private fun camposValidos(): Boolean {
-        var valido = true
-
-        if (binding.etNumeroPersonal.text.isEmpty()) {
-            binding.etNumeroPersonal.error = "Número de personal obligatorio"
-            valido = false
-        }
-
-        if (binding.etPassword.text.isEmpty()) {
-            binding.etPassword.error = "Contraseña obligatoria"
-            valido = false
-        }
-
-        return valido
-    }
-
-    private fun consumirAPI(numeroPersonal: String, password: String) {
-
-        Ion.getDefault(this@LoginActivity)
-            .conscryptMiddleware.enable(false)
-
-        Ion.with(this@LoginActivity)
-            .load(
-                "POST",
-                "${Conexion().URL_API}autenticacion/conductor"
-            )
-            .setHeader(
-                "Content-Type",
-                "application/x-www-form-urlencoded"
-            )
+        Ion.with(this)
+            .load("POST", "${Conexion().URL_API}autenticacion/colaborador")
             .setBodyParameter("numeroPersonal", numeroPersonal)
-            .setBodyParameter("contrasena", password)
+            .setBodyParameter("contrasena", contrasena)
             .asString()
             .setCallback { e, result ->
-                if (e == null) {
-                    serializarRespuesta(result)
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Error de conexión",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    Log.e("API_ERROR", e.toString())
+
+                if (e != null || result == null) {
+                    Toast.makeText(this, "Error de conexión", Toast.LENGTH_LONG).show()
+                    return@setCallback
+                }
+
+                try {
+                    val json = JSONObject(result)
+                    val error = json.getBoolean("error")
+                    val mensaje = json.getString("mensaje")
+
+                    if (error) {
+                        Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show()
+                        return@setCallback
+                    }
+
+                    val c = json.getJSONObject("colaborador")
+
+                    val colaborador = Colaborador(
+                        idColaborador = c.getInt("id_colaborador"),
+                        nombre = c.getString("nombre"),
+                        apellidoPaterno = c.getString("apellido_paterno"),
+                        apellidoMaterno = c.optString("apellido_materno"),
+                        numeroPersonal = c.getString("numero_personal"),
+                        correoElectronico = c.getString("correo_electronico")
+                    )
+
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("ID_CONDUCTOR", colaborador.idColaborador)
+                    startActivity(intent)
+                    finish()
+
+                } catch (ex: Exception) {
+                    Toast.makeText(this, "Error al procesar respuesta", Toast.LENGTH_LONG).show()
                 }
             }
-    }
-
-    private fun serializarRespuesta(json: String) {
-        try {
-            val gson = Gson()
-            val respuesta =
-                gson.fromJson(json, RSAutenticacionConductor::class.java)
-
-            if (!respuesta.error) {
-                Toast.makeText(
-                    this,
-                    "Bienvenido ${respuesta.conductor!!.nombre}",
-                    Toast.LENGTH_LONG
-                ).show()
-
-                irPantallaPrincipal(json)
-            } else {
-                Toast.makeText(
-                    this,
-                    respuesta.mensaje,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-
-        } catch (e: Exception) {
-            Toast.makeText(
-                this,
-                "Error al procesar respuesta",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
-
-    private fun irPantallaPrincipal(json: String) {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("conductor", json)
-        startActivity(intent)
-        finish()
     }
 }
