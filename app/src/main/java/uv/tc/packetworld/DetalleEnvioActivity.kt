@@ -3,7 +3,6 @@ package uv.tc.packetworld
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
 import com.koushikdutta.ion.Ion
 import org.json.JSONObject
 import uv.tc.packetworld.util.Conexion
@@ -110,18 +109,16 @@ class DetalleEnvioActivity : AppCompatActivity() {
             return
         }
 
-        val json = """
-        {
+        val json = """ {
           "idEstatusEnvio": ${obtenerIdEstatus(estatusSeleccionado)},
           "idColaborador": 1,
           "comentario": "$comentario"
-        }
-        """.trimIndent()
+        } """.trimIndent()
 
         Ion.with(this)
             .load(
                 "PUT",
-                "${Constantes().URL_API}envios/$numeroGuia/estatus"
+                "${Conexion().URL_API}envios/$numeroGuia/estatus"
             )
             .setHeader("Content-Type", "application/json")
             .setStringBody(json)
