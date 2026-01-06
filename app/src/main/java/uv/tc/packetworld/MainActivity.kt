@@ -32,15 +32,20 @@ class MainActivity : AppCompatActivity() {
 
         configurarMenu()
         cargarEnviosAsignados()
+
+        binding.btnEditarPerfil.setOnClickListener {
+            val intent = Intent(this, EditarColaboradorActivity::class.java)
+            intent.putExtra("ID_CONDUCTOR", idConductor)
+            startActivity(intent)
+        }
+
     }
 
     private fun configurarMenu() {
         binding.bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
 
-                R.id.nav_envios -> {
-                    true
-                }
+                R.id.nav_envios -> true
 
                 R.id.nav_perfil -> {
                     val intent = Intent(this, EditarColaboradorActivity::class.java)
@@ -53,6 +58,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun cargarEnviosAsignados() {
         Ion.with(this)
