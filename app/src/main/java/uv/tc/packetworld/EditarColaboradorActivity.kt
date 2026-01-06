@@ -1,5 +1,6 @@
 package uv.tc.packetworld
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,76 +21,79 @@ class EditarColaboradorActivity : AppCompatActivity() {
         binding = ActivityEditarColaboradorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        cargarDatos()
+        // Botón regresar (flecha)
+        binding.btnRegresar.setOnClickListener {
+            finish()
+        }
+
+        // Botón cerrar sesión
+        binding.btnCerrarSesion.setOnClickListener {
+            cerrarSesion()
+        }
+
+        cargarPerfil()
+
         binding.btnActualizar.setOnClickListener {
-            actualizarDatos()
+            actualizarPerfil()
         }
     }
 
-    private fun cargarDatos() {
-        val json = intent.getStringExtra("conductor")
-        val gson = Gson()
-        conductor = gson.fromJson(json, Colaborador::class.java)
+    private fun cargarPerfil() {
+        val idConductor = intent.getIntExtra("ID_CONDUCTOR", -1)
 
-        binding.etNombre.setText(conductor.nombre)
-        binding.etApellidoPaterno.setText(conductor.apellidoPaterno)
-        binding.etApellidoMaterno.setText(conductor.apellidoMaterno)
-        binding.etCorreo.setText(conductor.correoElectronico)
+        if (idConductor == -1) {
+            Toast.makeText(this, "Error al cargar perfil", Toast.LENGTH_LONG).show()
+            finish()
+            return
+        }
+
+        Ion.with(this)
+            .load("${Conexion().URL_API}colaborador/$idConductor")
+            .asString()
+            .setCallback { e, result ->
+                if (e == null && result != null) {
+                    val gson = Gson()
+                    conductor = gson.fromJson(result, Colaborador::class.java)
+
+                    binding.etNombre.setText(conductor.nombre)
+                    binding.etApellidoPaterno.setText(conductor.apellidoPaterno)
+                    binding.etApellidoMaterno.setText(conductor.apellidoMaterno)
+                    binding.etCorreo.setText(conductor.correoElectronico)
+                } else {
+                    Toast.makeText(this, "No se pudo cargar el perfil", Toast.LENGTH_LONG).show()
+                }
+            }
     }
 
-    private fun actualizarDatos() {
+    private fun actualizarPerfil() {
 
         conductor.nombre = binding.etNombre.text.toString()
         conductor.apellidoPaterno = binding.etApellidoPaterno.text.toString()
         conductor.apellidoMaterno = binding.etApellidoMaterno.text.toString()
         conductor.correoElectronico = binding.etCorreo.text.toString()
 
-        val gson = Gson()
-        val jsonConductor = gson.toJson(conductor)
+        val json = Gson().toJson(conductor)
 
-        Ion.with(this@EditarColaboradorActivity)
-            .load(
-                "PUT",
-                "${Conexion().URL_API}colaborador/editar"
-            )
+        Ion.with(this)
+            .load("PUT", "${Conexion().URL_API}colaborador/editar")
             .setHeader("Content-Type", "application/json")
-            .setStringBody(jsonConductor)
+            .setStringBody(json)
             .asString()
             .setCallback { e, result ->
-                if (e == null) {
-                    verificarRespuesta(result)
+                if (e == null && result != null) {
+                    val respuesta = Gson().fromJson(result, Respuesta::class.java)
+                    Toast.makeText(this, respuesta.mensaje, Toast.LENGTH_LONG).show()
+                    if (!respuesta.error) finish()
                 } else {
-                    Toast.makeText(
-                        this,
-                        "Error al actualizar",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(this, "Error al actualizar perfil", Toast.LENGTH_LONG).show()
                 }
             }
     }
 
-    private fun verificarRespuesta(json: String) {
-        try {
-            val gson = Gson()
-            val respuesta =
-                gson.fromJson(json, Respuesta::class.java)
-
-            Toast.makeText(
-                this,
-                respuesta.mensaje,
-                Toast.LENGTH_LONG
-            ).show()
-
-            if (!respuesta.error) {
-                finish()
-            }
-
-        } catch (e: Exception) {
-            Toast.makeText(
-                this,
-                "Error al procesar respuesta",
-                Toast.LENGTH_LONG
-            ).show()
-        }
+    private fun cerrarSesion() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags =
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 }

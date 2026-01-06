@@ -30,11 +30,31 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        configurarMenu()
         cargarEnviosAsignados()
     }
 
-    private fun cargarEnviosAsignados() {
+    private fun configurarMenu() {
+        binding.bottomNav.setOnItemSelectedListener {
+            when (it.itemId) {
 
+                R.id.nav_envios -> {
+                    true
+                }
+
+                R.id.nav_perfil -> {
+                    val intent = Intent(this, EditarColaboradorActivity::class.java)
+                    intent.putExtra("ID_CONDUCTOR", idConductor)
+                    startActivity(intent)
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
+
+    private fun cargarEnviosAsignados() {
         Ion.with(this)
             .load("GET", "${Conexion().URL_API}envios/conductor/$idConductor")
             .asString()
