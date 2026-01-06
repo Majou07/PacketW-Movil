@@ -4,66 +4,70 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/main"
         android:orientation="vertical"
         android:padding="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Editar perfil"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:layout_marginTop="20dp"
-            android:textSize="24sp" />
+            android:layout_height="wrap_content">
 
-        <!-- FOTO (ESPACIO) -->
-        <ImageView
-            android:id="@+id/imgFoto"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:src="@mipmap/ic_launcher"
-            android:contentDescription="Foto colaborador" />
+            <ImageButton
+                android:id="@+id/btnRegresar"
+                android:src="@android:drawable/ic_media_previous"
+                android:background="@null"
+                android:contentDescription="Regresar"/>
+
+            <TextView
+                android:text="Editar perfil"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginStart="16dp"/>
+        </LinearLayout>
 
         <EditText
             android:id="@+id/etNombre"
+            android:hint="Nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre"
-            android:layout_marginTop="60dp" />
+            android:layout_marginTop="30dp"/>
 
         <EditText
             android:id="@+id/etApellidoPaterno"
+            android:hint="Apellido paterno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Apellido paterno"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="20dp"/>
 
         <EditText
             android:id="@+id/etApellidoMaterno"
+            android:hint="Apellido materno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Apellido materno"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="20dp"/>
 
         <EditText
             android:id="@+id/etCorreo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="Correo electrónico"
             android:inputType="textEmailAddress"
-            android:layout_marginTop="30dp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"/>
 
         <Button
             android:id="@+id/btnActualizar"
+            android:text="Actualizar perfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:text="Actualizar datos" />
+            android:layout_marginTop="40dp"/>
 
+        <Button
+            android:id="@+id/btnCerrarSesion"
+            android:text="Cerrar sesión"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"/>
     </LinearLayout>
 </ScrollView>
