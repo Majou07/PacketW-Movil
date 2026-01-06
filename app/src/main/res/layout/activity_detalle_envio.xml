@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:text="Guía: PW-0001"
             android:textStyle="bold"
+            android:layout_marginTop="50dp"
             android:textSize="16sp" />
 
         <TextView
@@ -24,34 +25,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Dirección destino"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="20dp" />
 
         <TextView
             android:id="@+id/tvSucursal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sucursal origen"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="20dp" />
 
         <TextView
             android:id="@+id/tvCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cliente: nombre / teléfono / correo"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="20dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cambiar estatus"
             android:textStyle="bold"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="50dp" />
 
         <Spinner
             android:id="@+id/spEstatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="20dp" />
 
         <EditText
             android:id="@+id/etComentario"
@@ -66,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Actualizar estatus"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="40dp" />
 
     </LinearLayout>
 </ScrollView>
