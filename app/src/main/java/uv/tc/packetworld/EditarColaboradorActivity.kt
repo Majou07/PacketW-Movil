@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.koushikdutta.ion.Ion
+import uv.tc.packetworld.databinding.ActivityEditarColaboradorBinding
 import uv.tc.packetworld.dto.Respuesta
 import uv.tc.packetworld.pojo.Colaborador
 import uv.tc.packetworld.util.Conexion

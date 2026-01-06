@@ -2,9 +2,9 @@ package uv.tc.packetworld.pojo
 
 data class Colaborador(
     val idColaborador: Int,
-    val nombre: String,
-    val apellidoPaterno: String,
-    val apellidoMaterno: String?,
+    var nombre: String,
+    var apellidoPaterno: String,
+    var apellidoMaterno: String?,
     val numeroPersonal: String,
-    val correoElectronico: String
+    var correoElectronico: String
 )
