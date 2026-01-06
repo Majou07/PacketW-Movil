@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.koushikdutta.ion.Ion
 import org.json.JSONObject
-import uv.tc.packetworld.pojo.Colaborador
 import uv.tc.packetworld.util.Conexion
 
 class LoginActivity : AppCompatActivity() {
@@ -40,20 +39,28 @@ class LoginActivity : AppCompatActivity() {
 
     private fun autenticar(numeroPersonal: String, contrasena: String) {
 
+        val url = "${Conexion().URL_API}autenticacion/administracion"
+
         Ion.with(this)
-            .load("POST", "${Conexion().URL_API}autenticacion/colaborador")
+            .load("POST", url)
             .setBodyParameter("numeroPersonal", numeroPersonal)
             .setBodyParameter("contrasena", contrasena)
             .asString()
             .setCallback { e, result ->
 
-                if (e != null || result == null) {
-                    Toast.makeText(this, "Error de conexión", Toast.LENGTH_LONG).show()
+                if (e != null) {
+                    Toast.makeText(this, "Error de conexión con el servidor", Toast.LENGTH_LONG).show()
+                    return@setCallback
+                }
+
+                if (result.isNullOrEmpty()) {
+                    Toast.makeText(this, "Respuesta vacía del servidor", Toast.LENGTH_LONG).show()
                     return@setCallback
                 }
 
                 try {
                     val json = JSONObject(result)
+
                     val error = json.getBoolean("error")
                     val mensaje = json.getString("mensaje")
 
@@ -62,24 +69,16 @@ class LoginActivity : AppCompatActivity() {
                         return@setCallback
                     }
 
-                    val c = json.getJSONObject("colaborador")
-
-                    val colaborador = Colaborador(
-                        idColaborador = c.getInt("id_colaborador"),
-                        nombre = c.getString("nombre"),
-                        apellidoPaterno = c.getString("apellido_paterno"),
-                        apellidoMaterno = c.optString("apellido_materno"),
-                        numeroPersonal = c.getString("numero_personal"),
-                        correoElectronico = c.getString("correo_electronico")
-                    )
+                    val colaborador = json.getJSONObject("colaborador")
+                    val idColaborador = colaborador.getInt("idColaborador")
 
                     val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("ID_CONDUCTOR", colaborador.idColaborador)
+                    intent.putExtra("ID_CONDUCTOR", idColaborador)
                     startActivity(intent)
                     finish()
 
                 } catch (ex: Exception) {
-                    Toast.makeText(this, "Error al procesar respuesta", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Error al procesar la respuesta", Toast.LENGTH_LONG).show()
                 }
             }
     }
