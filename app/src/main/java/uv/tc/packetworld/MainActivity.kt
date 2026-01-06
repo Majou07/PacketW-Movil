@@ -27,9 +27,43 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        mostrarInformacionConductor()
-        cargarEnviosAsignados()
+        if (cargarConductorDesdeIntent()) {
+            cargarEnviosAsignados()
+        } else {
+            Toast.makeText(
+                this,
+                "Error de sesión",
+                Toast.LENGTH_LONG
+            ).show()
+            finish()
+        }
     }
+
+    private fun cargarConductorDesdeIntent(): Boolean {
+        return try {
+            val json = intent.getStringExtra("conductor") ?: return false
+            val gson = Gson()
+            val respuesta =
+                gson.fromJson(json, RSAutenticacionConductor::class.java)
+
+            conductor = respuesta.conductor ?: return false
+
+            binding.tvNombreCompleto.text =
+                "${conductor.nombre} ${conductor.apellidoPaterno} ${conductor.apellidoMaterno ?: ""}"
+            binding.tvCorreo.text = conductor.correoElectronico
+
+            binding.btnEditarPerfil.setOnClickListener {
+                val intent = Intent(this, EditarColaboradorActivity::class.java)
+                intent.putExtra("conductor", gson.toJson(conductor))
+                startActivity(intent)
+            }
+
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
 
     private fun mostrarInformacionConductor() {
         try {
