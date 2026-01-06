@@ -26,7 +26,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp" />
 
-        <!-- DATOS DEL CONDUCTOR -->
         <TextView
             android:id="@+id/tvNombreCompleto"
             android:layout_width="match_parent"
@@ -46,7 +45,6 @@
             android:textSize="17sp"
             android:layout_marginTop="5dp" />
 
-        <!-- TÍTULO ENVÍOS -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,7 +53,6 @@
             android:textSize="18sp"
             android:layout_marginTop="40dp" />
 
-        <!-- LISTA DE ENVÍOS -->
         <ListView
             android:id="@+id/listEnvios"
             android:layout_width="match_parent"

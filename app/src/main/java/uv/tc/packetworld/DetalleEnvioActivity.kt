@@ -22,7 +22,8 @@ class DetalleEnvioActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detalle_envio)
+        setContentView(R.layout.activity_detalle_envio
+        )
 
         tvGuia = findViewById(R.id.tvGuia)
         tvDestino = findViewById(R.id.tvDestino)
