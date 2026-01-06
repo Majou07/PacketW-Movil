@@ -102,8 +102,7 @@ class DetalleEnvioActivity : AppCompatActivity() {
 
         if (
             (estatusSeleccionado == "detenido" ||
-                    estatusSeleccionado == "cancelado") &&
-            comentario.isEmpty()
+                    estatusSeleccionado == "cancelado") && comentario.isEmpty()
         ) {
             etComentario.error = "Comentario obligatorio para este estatus"
             return
