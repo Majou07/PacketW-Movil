@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -32,40 +31,31 @@ class MainActivity : AppCompatActivity() {
 
         configurarMenu()
         cargarEnviosAsignados()
-
-        binding.btnEditarPerfil.setOnClickListener {
-            val intent = Intent(this, EditarColaboradorActivity::class.java)
-            intent.putExtra("ID_CONDUCTOR", idConductor)
-            startActivity(intent)
-        }
-
     }
 
     private fun configurarMenu() {
+        binding.bottomNav.selectedItemId = R.id.nav_envios
+
         binding.bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
-
                 R.id.nav_envios -> true
 
                 R.id.nav_perfil -> {
-                    val intent = Intent(this, EditarColaboradorActivity::class.java)
+                    val intent = Intent(this, PerfilActivity::class.java)
                     intent.putExtra("ID_CONDUCTOR", idConductor)
                     startActivity(intent)
                     true
                 }
-
                 else -> false
             }
         }
     }
-
 
     private fun cargarEnviosAsignados() {
         Ion.with(this)
             .load("GET", "${Conexion().URL_API}envios/conductor/$idConductor")
             .asString()
             .setCallback { e, result ->
-
                 if (e != null || result == null) {
                     Toast.makeText(this, "Error al cargar envíos", Toast.LENGTH_LONG).show()
                     return@setCallback
@@ -77,26 +67,26 @@ class MainActivity : AppCompatActivity() {
 
                     for (i in 0 until array.length()) {
                         val obj = array.getJSONObject(i)
-
-                        val envio = Envio(
-                            numeroGuia = obj.getString("numero_guia"),
-                            destino = obj.getString("destino"),
-                            estatus = obj.getString("estatus")
+                        listaEnvios.add(
+                            Envio(
+                                obj.getString("numero_guia"),
+                                obj.getString("destino"),
+                                obj.getString("estatus")
+                            )
                         )
-                        listaEnvios.add(envio)
                     }
 
-                    val adapter = AdaptadorEnvio(this, listaEnvios)
-                    binding.listEnvios.adapter = adapter
+                    binding.listEnvios.adapter =
+                        AdaptadorEnvio(this, listaEnvios)
 
-                    binding.listEnvios.setOnItemClickListener { _, _, position, _ ->
-                        val envio = listaEnvios[position]
-                        val intent = Intent(this, DetalleEnvioActivity::class.java)
-                        intent.putExtra("NUM_GUIA", envio.numeroGuia)
+                    binding.listEnvios.setOnItemClickListener { _, _, pos, _ ->
+                        val intent =
+                            Intent(this, DetalleEnvioActivity::class.java)
+                        intent.putExtra("guia", listaEnvios[pos].numeroGuia)
                         startActivity(intent)
                     }
 
-                } catch (ex: Exception) {
+                } catch (_: Exception) {
                     Toast.makeText(this, "Error al procesar envíos", Toast.LENGTH_LONG).show()
                 }
             }
