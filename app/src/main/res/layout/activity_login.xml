@@ -14,7 +14,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="60dp"
             android:src="@mipmap/ic_launcher"
             android:contentDescription="Logo" />
 
@@ -25,14 +25,14 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="40dp" />
 
         <EditText
             android:id="@+id/etNumeroPersonal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Número de personal"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="60dp"
             android:inputType="text" />
 
         <EditText
@@ -41,13 +41,13 @@
             android:layout_height="wrap_content"
             android:hint="Contraseña"
             android:inputType="textPassword"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="40dp" />
 
         <Button
             android:id="@+id/btnIngresar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Iniciar sesión"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="50dp" />
 
     </LinearLayout>
