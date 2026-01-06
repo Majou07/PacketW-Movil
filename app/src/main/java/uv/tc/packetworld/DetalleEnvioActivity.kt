@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.koushikdutta.ion.Ion
 import org.json.JSONObject
 import uv.tc.packetworld.util.Conexion
+import uv.tc.packetworld.R
 
 class DetalleEnvioActivity : AppCompatActivity() {
 
