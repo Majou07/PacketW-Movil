@@ -23,14 +23,6 @@
                 android:layout_gravity="center_horizontal"
                 android:src="@mipmap/ic_launcher" />
 
-            <Button
-                android:id="@+id/btnEditarPerfil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Editar perfil"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp" />
-
             <TextView
                 android:id="@+id/tvNombreCompleto"
                 android:layout_width="match_parent"

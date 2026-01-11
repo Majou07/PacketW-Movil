@@ -1,13 +1,17 @@
 package uv.tc.packetworld
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
 import com.koushikdutta.ion.Ion
 import org.json.JSONArray
 import uv.tc.packetworld.databinding.ActivityMainBinding
+import uv.tc.packetworld.pojo.Colaborador
 import uv.tc.packetworld.pojo.Envio
 import uv.tc.packetworld.util.Conexion
 
@@ -15,6 +19,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var idConductor: Int = -1
+
+    private var conductor: Colaborador? = null
+
     private val listaEnvios = ArrayList<Envio>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         configurarMenu()
+        cargarPerfil()
+        obtenerFoto()
         cargarEnviosAsignados()
     }
 
@@ -51,6 +60,56 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    private fun cargarPerfil() {
+        Ion.with(this)
+            .load("${Conexion().URL_API}colaborador/obtener/$idConductor")
+            .asString(Charsets.UTF_8)
+            .setCallback { e, result ->
+                if (e == null && result != null) {
+                    try {
+                        val colaborador = Gson().fromJson(result, Colaborador::class.java)
+                        colaborador?.let {
+                            conductor = it
+                            binding.tvNombreCompleto.text = "${it.nombre} ${it.apellidoPaterno} ${it.apellidoMaterno}"
+                            binding.tvCorreo.text = it.correoElectronico
+                        }
+                    } catch (ex: Exception) {
+                        Toast.makeText(
+                            this,
+                            "Error al procesar perfil: ${ex.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Error al cargar perfil", Toast.LENGTH_LONG).show()
+                }
+            }
+    }
+
+    private fun obtenerFoto() {
+        val url = "${Conexion().URL_API}colaborador/obtener-foto/$idConductor"
+
+        Ion.with(this)
+            .load(url)
+            .asString()
+            .setCallback { e, result ->
+                if (e == null && result != null) {
+                    try {
+                        val colaborador = Gson().fromJson(result, Colaborador::class.java)
+                        colaborador?.fotografia?.let { base64 ->
+                            val bytes = Base64.decode(base64, Base64.DEFAULT)
+                            val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                            binding.imgPerfil.setImageBitmap(bitmap)
+                        }
+                    } catch (ex: Exception) {
+                        Toast.makeText(this, "Error al procesar foto", Toast.LENGTH_LONG).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Error al cargar foto", Toast.LENGTH_LONG).show()
+                }
+            }
     }
 
     private fun cargarEnviosAsignados() {
