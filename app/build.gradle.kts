@@ -46,8 +46,10 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.material:material:1.11.0")
 
+
     implementation("com.koushikdutta.ion:ion:2.2.1")
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.code.gson:gson:2.13.2")
+
 
     testImplementation("junit:junit:4.13.2")
 }
