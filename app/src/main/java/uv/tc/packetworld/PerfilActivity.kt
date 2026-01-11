@@ -61,8 +61,11 @@ class PerfilActivity : AppCompatActivity() {
                         val colaborador = Gson().fromJson(result, Colaborador::class.java)
                         colaborador?.let {
                             conductor = it
-                            binding.tvNombre.text = "${it.nombre} ${it.apellidoPaterno}"
+                            binding.tvNombre.text = "${it.nombre} ${it.apellidoPaterno} ${it.apellidoMaterno}"
                             binding.tvCorreo.text = it.correoElectronico
+                            binding.tvCurp.text = it.curp
+                            binding.tvContrasena.text = "*".repeat(colaborador.contrasena?.length ?: 0)
+                            binding.tvNumeroLicencia.text = it.numeroLicencia
                         }
                     } catch (ex: Exception) {
                         Toast.makeText(

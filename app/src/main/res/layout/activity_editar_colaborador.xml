@@ -9,16 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Título (hasta arriba) -->
+        <!-- Título -->
         <TextView
             android:id="@+id/tvTitulo"
             android:text="Editar perfil"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
-        <!-- Botón regresar (opcional debajo del título) -->
+        <!-- Botón regresar -->
         <ImageButton
             android:id="@+id/btnRegresar"
             android:src="@android:drawable/ic_media_previous"
@@ -26,9 +26,9 @@
             android:contentDescription="Regresar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp" />
 
-        <!-- Fotografía del conductor (centrada) -->
+        <!-- Foto -->
         <ImageView
             android:id="@+id/ivFotografia"
             android:layout_width="120dp"
@@ -37,78 +37,109 @@
             android:scaleType="centerCrop"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="24dp"
             android:background="@color/black"
-            android:contentDescription="Foto de perfil"/>
+            android:contentDescription="Foto de perfil" />
 
         <!-- Nombre -->
+        <TextView
+            android:text="Nombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <EditText
             android:id="@+id/etNombre"
-            android:hint="Nombre"
+            android:hint="Ingresa tu nombre"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"/>
+            android:layout_height="wrap_content" />
 
         <!-- Apellido paterno -->
+        <TextView
+            android:text="Apellido paterno"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <EditText
             android:id="@+id/etApellidoPaterno"
-            android:hint="Apellido paterno"
+            android:hint="Ingresa tu apellido paterno"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"/>
+            android:layout_height="wrap_content" />
 
         <!-- Apellido materno -->
+        <TextView
+            android:text="Apellido materno"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <EditText
             android:id="@+id/etApellidoMaterno"
-            android:hint="Apellido materno"
+            android:hint="Ingresa tu apellido materno"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"/>
+            android:layout_height="wrap_content" />
 
-        <!-- Correo electrónico -->
+        <!-- Correo -->
+        <TextView
+            android:text="Correo electrónico"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <EditText
             android:id="@+id/etCorreo"
-            android:hint="Correo electrónico"
+            android:hint="correo@ejemplo.com"
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"/>
+            android:layout_height="wrap_content" />
 
         <!-- CURP -->
+        <TextView
+            android:text="CURP"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <EditText
             android:id="@+id/etCurp"
             android:hint="CURP"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:enabled="false"/>
+            android:layout_height="wrap_content" />
 
         <!-- Contraseña -->
+        <TextView
+            android:text="Contraseña"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <EditText
             android:id="@+id/etContrasena"
             android:hint="Contraseña"
             android:inputType="textPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:enabled="false"/>
+            android:layout_height="wrap_content" />
 
-        <!-- Número de licencia -->
+        <!-- Licencia -->
+        <TextView
+            android:text="Número de licencia"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <EditText
             android:id="@+id/etNumeroLicencia"
             android:hint="Número de licencia"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:enabled="false"/>
+            android:layout_height="wrap_content" />
 
-        <!-- Botón actualizar -->
+        <!-- Botón -->
         <Button
             android:id="@+id/btnActualizar"
             android:text="Actualizar perfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="24dp" />
 
     </LinearLayout>
 </ScrollView>
