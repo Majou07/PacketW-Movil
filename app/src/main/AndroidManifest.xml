@@ -28,6 +28,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".DetalleEnvioActivity" />
         <activity android:name=".EditarColaboradorActivity" />
+        <activity android:name=".PerfilActivity"/>
 
     </application>
 

@@ -2,6 +2,7 @@ package uv.tc.packetworld
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.koushikdutta.ion.Ion
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         idConductor = intent.getIntExtra("ID_CONDUCTOR", -1)
+        Log.e("ID", "Main -> idConductor = $idConductor")
 
         if (idConductor == -1) {
             Toast.makeText(this, "Sesión inválida", Toast.LENGTH_LONG).show()

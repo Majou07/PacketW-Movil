@@ -2,6 +2,7 @@ package uv.tc.packetworld
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -72,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
 
                     val colaborador = json.getJSONObject("colaborador")
                     val idColaborador = colaborador.getInt("idColaborador")
+                    Log.e("ID", "Login -> idColaborador = $idColaborador")
                     val nombreColaborador = colaborador.optString("nombre", "")
 
                     Toast.makeText(this, "Bienvenido, $nombreColaborador", Toast.LENGTH_LONG).show()

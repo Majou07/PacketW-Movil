@@ -1,6 +1,7 @@
 package uv.tc.packetworld
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import com.koushikdutta.ion.Ion
 import uv.tc.packetworld.pojo.Colaborador
 import uv.tc.packetworld.util.Conexion
 import uv.tc.packetworld.databinding.ActivityPerfilBinding
+import android.util.Base64
 
 class PerfilActivity : AppCompatActivity() {
 
@@ -28,6 +30,7 @@ class PerfilActivity : AppCompatActivity() {
         }
 
         cargarPerfil()
+        obtenerFoto()
 
         binding.btnEditarPerfil.setOnClickListener {
             val intent = Intent(this, EditarColaboradorActivity::class.java)
@@ -43,10 +46,15 @@ class PerfilActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        cargarPerfil()
+        obtenerFoto() }
+
     private fun cargarPerfil() {
         Ion.with(this)
-            .load("${Conexion().URL_API}colaborador/$idConductor")
-            .asString()
+            .load("${Conexion().URL_API}colaborador/obtener/$idConductor")
+            .asString(Charsets.UTF_8)
             .setCallback { e, result ->
                 if (e == null && result != null) {
                     try {
@@ -68,5 +76,29 @@ class PerfilActivity : AppCompatActivity() {
                 }
             }
     }
+    private fun obtenerFoto() {
+        val url = "${Conexion().URL_API}colaborador/obtener-foto/$idConductor"
+
+        Ion.with(this)
+            .load(url)
+            .asString()
+            .setCallback { e, result ->
+                if (e == null && result != null) {
+                    try {
+                        val colaborador = Gson().fromJson(result, Colaborador::class.java)
+                        colaborador?.fotografia?.let { base64 ->
+                            val bytes = Base64.decode(base64, Base64.DEFAULT)
+                            val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                            binding.imgPerfil.setImageBitmap(bitmap)
+                        }
+                    } catch (ex: Exception) {
+                        Toast.makeText(this, "Error al procesar foto", Toast.LENGTH_LONG).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Error al cargar foto", Toast.LENGTH_LONG).show()
+                }
+            }
+    }
+
 
 }
