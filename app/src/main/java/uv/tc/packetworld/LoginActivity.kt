@@ -43,13 +43,14 @@ class LoginActivity : AppCompatActivity() {
 
         Ion.with(this)
             .load("POST", url)
+            .setHeader("Content-Type", "application/x-www-form-urlencoded")
             .setBodyParameter("numeroPersonal", numeroPersonal)
             .setBodyParameter("contrasena", contrasena)
             .asString()
             .setCallback { e, result ->
 
                 if (e != null) {
-                    Toast.makeText(this, "Error de conexión con el servidor", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Error de conexión con el servidor: ${e.message}", Toast.LENGTH_LONG).show()
                     return@setCallback
                 }
 
@@ -71,6 +72,9 @@ class LoginActivity : AppCompatActivity() {
 
                     val colaborador = json.getJSONObject("colaborador")
                     val idColaborador = colaborador.getInt("idColaborador")
+                    val nombreColaborador = colaborador.optString("nombre", "")
+
+                    Toast.makeText(this, "Bienvenido, $nombreColaborador", Toast.LENGTH_LONG).show()
 
                     val intent = Intent(this, MainActivity::class.java)
                     intent.putExtra("ID_CONDUCTOR", idColaborador)
