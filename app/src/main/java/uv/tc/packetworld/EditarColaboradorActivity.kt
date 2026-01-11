@@ -35,7 +35,7 @@ class EditarColaboradorActivity : AppCompatActivity() {
 
     private fun cargarDatos() {
         Ion.with(this)
-            .load("${Conexion().URL_API}colaborador/$idConductor")
+            .load("${Conexion().URL_API}obtener/$idConductor")
             .asString()
             .setCallback { e, result ->
                 if (e == null && result != null) {
@@ -44,11 +44,15 @@ class EditarColaboradorActivity : AppCompatActivity() {
                     binding.etApellidoPaterno.setText(conductor.apellidoPaterno)
                     binding.etApellidoMaterno.setText(conductor.apellidoMaterno)
                     binding.etCorreo.setText(conductor.correoElectronico)
+                    binding.etCurp.setText(conductor.curp)
+                    binding.etContrasena.setText(conductor.contrasena)
+                    binding.etNumeroLicencia.setText(conductor.numeroLicencia)
                 } else {
                     Toast.makeText(this, "Error al cargar datos", Toast.LENGTH_LONG).show()
                 }
             }
     }
+
 
     private fun actualizarDatos() {
         conductor.nombre = binding.etNombre.text.toString()

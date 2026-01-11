@@ -95,7 +95,7 @@
 
         <!-- Número de licencia -->
         <EditText
-            android:id="@+id/et_numero_licencia"
+            android:id="@+id/etNumeroLicencia"
             android:hint="Número de licencia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
