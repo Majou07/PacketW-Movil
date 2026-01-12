@@ -73,7 +73,6 @@ class LoginActivity : AppCompatActivity() {
 
                     val colaborador = json.getJSONObject("colaborador")
                     val idColaborador = colaborador.getInt("idColaborador")
-                    Log.e("ID", "Login -> idColaborador = $idColaborador")
                     val nombreColaborador = colaborador.optString("nombre", "")
 
                     Toast.makeText(this, "Bienvenido, $nombreColaborador", Toast.LENGTH_LONG).show()

@@ -1,65 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/layoutDetalleEnvio"
         android:orientation="vertical"
         android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".DetalleEnvioActivity">
 
+        <!-- Número de guía -->
         <TextView
             android:id="@+id/tvGuia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guía: PW-0001"
             android:textStyle="bold"
-            android:layout_marginTop="50dp"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tvDestino"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Dirección destino"
+            android:textSize="16sp"
             android:layout_marginTop="20dp" />
 
+        <!-- Estatus actual -->
+        <TextView
+            android:id="@+id/tvEstatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Estatus: recibido en sucursal"
+            android:layout_marginTop="10dp" />
+
+        <!-- Sucursal origen -->
         <TextView
             android:id="@+id/tvSucursal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sucursal origen"
-            android:layout_marginTop="20dp" />
+            android:text="Sucursal origen: GTO"
+            android:layout_marginTop="10dp" />
 
+        <!-- Dirección destino -->
+        <TextView
+            android:id="@+id/tvDestino"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Destino: Av. Juárez 123, Centro, CP 91000, Xalapa, Veracruz"
+            android:layout_marginTop="10dp" />
+
+        <!-- Destinatario -->
+        <TextView
+            android:id="@+id/tvDestinatario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Destinatario: Carlos Ramírez López"
+            android:layout_marginTop="10dp" />
+
+        <!-- Cliente remitente -->
         <TextView
             android:id="@+id/tvCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cliente: nombre / teléfono / correo"
+            android:text="Cliente: Luis Ramírez Gómez\nTeléfono: 4771234567\nCorreo electrónico: luis@example.com"
+            android:layout_marginTop="10dp" />
+
+        <!-- Paquetes contenidos -->
+        <TextView
+            android:id="@+id/tvPaquetes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Paquetes:\n• Caja con ropa (5.50 kg, 40x30x25 cm)\n• Electrodoméstico pequeño (12.30 kg, 60x45x35 cm)"
             android:layout_marginTop="20dp" />
 
+        <!-- Sección para actualizar estatus -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cambiar estatus"
             android:textStyle="bold"
-            android:layout_marginTop="50dp" />
+            android:layout_marginTop="30dp" />
 
         <Spinner
             android:id="@+id/spEstatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="10dp" />
 
         <EditText
             android:id="@+id/etComentario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Comentario (obligatorio si detenido o cancelado)"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:inputType="textMultiLine" />
 
         <Button
@@ -67,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Actualizar estatus"
-            android:layout_marginTop="40dp" />
+            android:layout_marginTop="20dp" />
 
     </LinearLayout>
 </ScrollView>

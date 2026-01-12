@@ -49,7 +49,8 @@ class PerfilActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         cargarPerfil()
-        obtenerFoto() }
+        obtenerFoto()
+    }
 
     private fun cargarPerfil() {
         Ion.with(this)

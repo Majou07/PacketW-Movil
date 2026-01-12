@@ -77,7 +77,6 @@ class EditarColaboradorActivity : AppCompatActivity() {
 
     private fun cargarDatos() {
         val url = "${Conexion().URL_API}colaborador/obtener/$idConductor"
-        Log.e("API", "URL llamada: $url")
 
         Ion.with(this)
             .load(url)
@@ -169,7 +168,6 @@ class EditarColaboradorActivity : AppCompatActivity() {
         }
 
         val jsonBody = Gson().toJson(conductor)
-        Log.e("API", "JSON enviado: $jsonBody")
 
         Ion.with(this)
             .load("PUT", "${Conexion().URL_API}colaborador/editar")
@@ -178,7 +176,6 @@ class EditarColaboradorActivity : AppCompatActivity() {
             .asString()
             .setCallback { e, result ->
                 if (e == null && result != null) {
-                    Log.e("API", "Respuesta cruda: $result")
                     try {
                         val r = Gson().fromJson(result, Respuesta::class.java)
                         Toast.makeText(this, r.mensaje, Toast.LENGTH_LONG).show()
@@ -188,8 +185,6 @@ class EditarColaboradorActivity : AppCompatActivity() {
                         Toast.makeText(this, "Error al procesar respuesta", Toast.LENGTH_LONG).show()
                     }
                 } else {
-                    Log.e("API", "Error Ion: ${e?.message}", e)
-                    Log.e("API", "Respuesta nula o error: $result")
                     Toast.makeText(this, "Error al actualizar", Toast.LENGTH_LONG).show()
                 }
             }

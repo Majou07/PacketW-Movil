@@ -13,6 +13,7 @@ import org.json.JSONArray
 import uv.tc.packetworld.databinding.ActivityMainBinding
 import uv.tc.packetworld.pojo.Colaborador
 import uv.tc.packetworld.pojo.Envio
+import uv.tc.packetworld.pojo.EnvioLista
 import uv.tc.packetworld.util.Conexion
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     private var conductor: Colaborador? = null
 
-    private val listaEnvios = ArrayList<Envio>()
+    private val listaEnvios = ArrayList<EnvioLista>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +40,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         configurarMenu()
+        cargarPerfil()
+        obtenerFoto()
+        cargarEnviosAsignados()
+    }
+
+    override fun onResume() {
+        super.onResume()
         cargarPerfil()
         obtenerFoto()
         cargarEnviosAsignados()
@@ -113,9 +121,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun cargarEnviosAsignados() {
+
         Ion.with(this)
-            .load("GET", "${Conexion().URL_API}envios/conductor/$idConductor")
-            .asString()
+            .load("GET", "${Conexion().URL_API}envio/asignados/$idConductor")
+            .asString(Charsets.UTF_8)
             .setCallback { e, result ->
                 if (e != null || result == null) {
                     Toast.makeText(this, "Error al cargar envíos", Toast.LENGTH_LONG).show()
@@ -125,31 +134,43 @@ class MainActivity : AppCompatActivity() {
                 try {
                     listaEnvios.clear()
                     val array = JSONArray(result)
+                    Log.d("Envios", "Cantidad de envíos recibidos: ${array.length()}")
 
                     for (i in 0 until array.length()) {
                         val obj = array.getJSONObject(i)
-                        listaEnvios.add(
-                            Envio(
-                                obj.getString("numero_guia"),
-                                obj.getString("destino"),
-                                obj.getString("estatus")
-                            )
+
+                        // Concatenamos la dirección a partir de los campos individuales
+                        val direccion = "${obj.getString("destinoCalle")} ${obj.getString("destinoNumero")}, " +
+                                "${obj.getString("destinoColonia")}, CP ${obj.getString("destinoCodigoPostal")}, " +
+                                "${obj.getString("destinoCiudad")}, ${obj.getString("destinoEstado")}"
+
+                        val envio = EnvioLista(
+                            idEnvio = obj.getInt("idEnvio"),
+                            numeroGuia = obj.getString("numeroGuia"),
+                            direccionDestino = direccion,
+                            estatusEnvio = obj.getString("estatusEnvio")
                         )
+                        listaEnvios.add(envio)
+
                     }
 
-                    binding.listEnvios.adapter =
-                        AdaptadorEnvio(this, listaEnvios)
+                    binding.listEnvios.adapter = AdaptadorEnvio(this, listaEnvios)
 
                     binding.listEnvios.setOnItemClickListener { _, _, pos, _ ->
-                        val intent =
-                            Intent(this, DetalleEnvioActivity::class.java)
-                        intent.putExtra("guia", listaEnvios[pos].numeroGuia)
+                        Log.d("Envios", "Click en envío: ${listaEnvios[pos]}")
+                        val intent = Intent(this, DetalleEnvioActivity::class.java)
+                        intent.putExtra("ID_ENVIO", listaEnvios[pos].idEnvio)
                         startActivity(intent)
                     }
 
-                } catch (_: Exception) {
-                    Toast.makeText(this, "Error al procesar envíos", Toast.LENGTH_LONG).show()
+                } catch (ex: Exception) {
+                    Log.e("Envios", "Error al procesar JSON", ex)
+                    Toast.makeText(this, "Error al procesar envíos: ${ex.message}", Toast.LENGTH_LONG).show()
                 }
             }
     }
+
+
+
+
 }

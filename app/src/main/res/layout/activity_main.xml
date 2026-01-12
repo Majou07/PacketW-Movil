@@ -1,65 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <!-- Sección superior con perfil -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgPerfil"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tvNombreCompleto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre del conductor"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/tvCorreo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="correo@ejemplo.com"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Envíos asignados"
+            android:textStyle="bold"
+            android:layout_marginTop="30dp" />
+    </LinearLayout>
+
+    <!-- ListView ocupa todo el espacio restante -->
+    <ListView
+        android:id="@+id/listEnvios"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/imgPerfil"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@mipmap/ic_launcher" />
-
-            <TextView
-                android:id="@+id/tvNombreCompleto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nombre del conductor"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:layout_marginTop="20dp" />
-
-            <TextView
-                android:id="@+id/tvCorreo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="correo@ejemplo.com"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Envíos asignados"
-                android:textStyle="bold"
-                android:layout_marginTop="30dp" />
-
-            <ListView
-                android:id="@+id/listEnvios"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-    </ScrollView>
-
+    <!-- Menú inferior -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="0dp"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/menu_principal" />
-
 </LinearLayout>

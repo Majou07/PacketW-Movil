@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import uv.tc.packetworld.pojo.Envio
+import uv.tc.packetworld.pojo.EnvioLista
 
-class AdaptadorEnvio (
+class AdaptadorEnvio(
     context: Context,
-    private val envios: List<Envio>
-) : ArrayAdapter<Envio>(context, 0, envios) {
+    private val envios: List<EnvioLista>
+) : ArrayAdapter<EnvioLista>(context, 0, envios) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: LayoutInflater.from(context)
@@ -23,8 +24,9 @@ class AdaptadorEnvio (
         val text2 = view.findViewById<TextView>(android.R.id.text2)
 
         text1.text = envio.numeroGuia
-        text2.text = "${envio.destino} | ${envio.estatus}"
+        text2.text = "${envio.direccionDestino} | ${envio.estatusEnvio}"
 
         return view
     }
 }
+
