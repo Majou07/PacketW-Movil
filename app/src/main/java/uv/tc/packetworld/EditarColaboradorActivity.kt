@@ -24,6 +24,11 @@ class EditarColaboradorActivity : AppCompatActivity() {
     private var idConductor = -1
     private var fotoSeleccionada: ByteArray? = null
 
+    // Expresiones regulares equivalentes a las del cliente escritorio
+    private val REGEX_CURP = "^[A-Z0-9]{18}$"
+    private val REGEX_CORREO = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
+    private val REGEX_NUMERO_PERSONAL = "^EMP[0-9]{3}$"
+    private val REGEX_NUMERO_LICENCIA = "^LIC[0-9]{6}$"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,21 +45,21 @@ class EditarColaboradorActivity : AppCompatActivity() {
         obtenerFoto()
 
         binding.btnActualizar.setOnClickListener {
-            actualizarDatos()
-            fotoSeleccionada?.let {
-                val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
-                subirFoto(bitmap)
+            if (validarCampos()) {
+                actualizarDatos()
+                fotoSeleccionada?.let {
+                    val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
+                    subirFoto(bitmap)
+                }
             }
         }
-
 
         binding.btnRegresar.setOnClickListener { finish() }
 
         binding.ivFotografia.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intent, 200) // código de request
+            startActivityForResult(intent, 200)
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -63,17 +68,13 @@ class EditarColaboradorActivity : AppCompatActivity() {
             val uri = data.data
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
 
-            // Mostrar la foto en el ImageView
             binding.ivFotografia.setImageBitmap(bitmap)
 
-            // Guardar la foto en memoria para actualizar después
             val stream = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream)
             fotoSeleccionada = stream.toByteArray()
         }
     }
-
-
 
     private fun cargarDatos() {
         val url = "${Conexion().URL_API}colaborador/obtener/$idConductor"
@@ -84,7 +85,8 @@ class EditarColaboradorActivity : AppCompatActivity() {
             .asString(Charsets.UTF_8)
             .setCallback { e, result ->
                 if (e != null || result.isNullOrEmpty()) {
-                    Log.e("API", "Error al cargar datos", e)
+                    Toast.makeText(this, "API no disponible, no se pueden cargar datos", Toast.LENGTH_LONG).show()
+                    binding.btnActualizar.isEnabled = false
                     return@setCallback
                 }
 
@@ -96,7 +98,9 @@ class EditarColaboradorActivity : AppCompatActivity() {
                     binding.etApellidoMaterno.setText(conductor.apellidoMaterno)
                     binding.etCorreo.setText(conductor.correoElectronico)
                     binding.etCurp.setText(conductor.curp)
-                    binding.etContrasena.setText(conductor.contrasena)
+                    binding.etContrasena.setText(
+                        conductor.contrasena?.let { "*".repeat(it.length) } ?: ""
+                    )
                     binding.etNumeroLicencia.setText(conductor.numeroLicencia)
 
                 } catch (ex: Exception) {
@@ -131,7 +135,7 @@ class EditarColaboradorActivity : AppCompatActivity() {
 
     private fun subirFoto(bitmap: Bitmap) {
         val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream) // calidad 90%
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream)
         val bytes = stream.toByteArray()
 
         Ion.with(this)
@@ -162,7 +166,6 @@ class EditarColaboradorActivity : AppCompatActivity() {
         conductor.contrasena = binding.etContrasena.text.toString()
         conductor.numeroLicencia = binding.etNumeroLicencia.text.toString()
 
-        // Si hay foto seleccionada, convertirla a Base64 y asignarla
         fotoSeleccionada?.let {
             conductor.fotografia = Base64.encodeToString(it, Base64.DEFAULT)
         }
@@ -190,7 +193,40 @@ class EditarColaboradorActivity : AppCompatActivity() {
             }
     }
 
+    private fun validarCampos(): Boolean {
+        var valido = true
 
+        if (binding.etNombre.text.isNullOrBlank()) {
+            binding.etNombre.error = "Campo obligatorio"
+            valido = false
+        }
 
+        if (binding.etApellidoPaterno.text.isNullOrBlank()) {
+            binding.etApellidoPaterno.error = "Campo obligatorio"
+            valido = false
+        }
 
+        if (!binding.etCurp.text.toString().matches(REGEX_CURP.toRegex())) {
+            binding.etCurp.error = "CURP inválida"
+            valido = false
+        }
+
+        if (!binding.etCorreo.text.toString().matches(REGEX_CORREO.toRegex())) {
+            binding.etCorreo.error = "Correo inválido"
+            valido = false
+        }
+
+        if (binding.etContrasena.text.length < 8) {
+            binding.etContrasena.error = "Mínimo 8 caracteres"
+            valido = false
+        }
+
+        if (binding.etNumeroLicencia.isEnabled &&
+            !binding.etNumeroLicencia.text.toString().matches(REGEX_NUMERO_LICENCIA.toRegex())) {
+            binding.etNumeroLicencia.error = "Formato inválido"
+            valido = false
+        }
+
+        return valido
+    }
 }

@@ -44,6 +44,16 @@
             android:layout_marginTop="30dp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tvSinEnvios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No hay envíos asignados"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:padding="20dp"
+        android:visibility="gone" />
+
     <!-- ListView ocupa todo el espacio restante -->
     <ListView
         android:id="@+id/listEnvios"
