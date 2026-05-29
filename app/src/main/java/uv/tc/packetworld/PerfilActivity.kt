@@ -32,6 +32,8 @@ class PerfilActivity : AppCompatActivity() {
         cargarPerfil()
         obtenerFoto()
 
+        binding.btnRegresar.setOnClickListener { finish() }
+
         binding.btnEditarPerfil.setOnClickListener {
             val intent = Intent(this, EditarColaboradorActivity::class.java)
             intent.putExtra("ID_CONDUCTOR", idConductor)

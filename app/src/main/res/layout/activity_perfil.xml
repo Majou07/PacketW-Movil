@@ -10,6 +10,16 @@
         android:layout_height="wrap_content"
         android:padding="20dp">
 
+        <ImageButton
+            android:id="@+id/btnRegresar"
+            android:src="@drawable/baseline_arrow_back"
+            app:tint="?attr/colorOnBackground"
+            android:background="@null"
+            android:contentDescription="Regresar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
         <!-- Foto de perfil -->
         <ImageView
             android:id="@+id/imgPerfil"

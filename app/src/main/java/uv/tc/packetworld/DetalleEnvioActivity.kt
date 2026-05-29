@@ -7,6 +7,7 @@ import com.koushikdutta.ion.Ion
 import org.json.JSONArray
 import org.json.JSONObject
 import uv.tc.packetworld.util.Conexion
+import java.nio.charset.StandardCharsets
 
 class DetalleEnvioActivity : AppCompatActivity() {
 
@@ -21,6 +22,9 @@ class DetalleEnvioActivity : AppCompatActivity() {
     private lateinit var spEstatus: Spinner
     private lateinit var etComentario: EditText
     private lateinit var btnActualizar: Button
+
+    private lateinit var btnRegresar: ImageButton
+
 
     private var idEnvio: Int = -1
 
@@ -39,6 +43,7 @@ class DetalleEnvioActivity : AppCompatActivity() {
         spEstatus = findViewById(R.id.spEstatus)
         etComentario = findViewById(R.id.etComentario)
         btnActualizar = findViewById(R.id.btnActualizarEstatus)
+        btnRegresar = findViewById(R.id.btnRegresar)
 
         idEnvio = intent.getIntExtra("ID_ENVIO", -1)
 
@@ -56,6 +61,8 @@ class DetalleEnvioActivity : AppCompatActivity() {
         btnActualizar.setOnClickListener {
             actualizarEstatus()
         }
+
+        btnRegresar.setOnClickListener { finish() }
     }
 
 
@@ -79,8 +86,8 @@ class DetalleEnvioActivity : AppCompatActivity() {
 
         Ion.with(this)
             .load("GET", "${Conexion().URL_API}envio/detalle/$idEnvio")
-            .setTimeout(4000)
-            .asString()
+            .setTimeout(5000)
+            .asString(StandardCharsets.UTF_8)
             .setCallback { e, result ->
 
                 if (e == null && result != null) {
@@ -133,8 +140,8 @@ class DetalleEnvioActivity : AppCompatActivity() {
 
         Ion.with(this)
             .load("GET", "${Conexion().URL_API}paquete/obtener-por-envio/$idEnvio")
-            .setTimeout(4000)
-            .asString()
+            .setTimeout(5000)
+            .asString(StandardCharsets.UTF_8)
             .setCallback { e, result ->
 
                 if (e == null && result != null) {
