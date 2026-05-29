@@ -28,7 +28,7 @@ class EditarColaboradorActivity : AppCompatActivity() {
     private val REGEX_CURP = "^[A-Z0-9]{18}$"
     private val REGEX_CORREO = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
     private val REGEX_NUMERO_PERSONAL = "^EMP[0-9]{3}$"
-    private val REGEX_NUMERO_LICENCIA = "^LIC[0-9]{6}$"
+    private val REGEX_NUMERO_LICENCIA = "^[A-Z0-9-]{6,20}$"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
