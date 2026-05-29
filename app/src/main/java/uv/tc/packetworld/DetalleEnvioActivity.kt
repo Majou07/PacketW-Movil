@@ -58,7 +58,7 @@ class DetalleEnvioActivity : AppCompatActivity() {
         }
     }
 
-    // ---------------- SPINNER ----------------
+
     private fun configurarSpinner() {
         val estatus = arrayOf(
             "recibido en sucursal",
@@ -74,7 +74,7 @@ class DetalleEnvioActivity : AppCompatActivity() {
         spEstatus.adapter = adapter
     }
 
-    // ---------------- DETALLE ----------------
+
     private fun cargarDetalleEnvio() {
 
         Ion.with(this)
@@ -128,7 +128,7 @@ class DetalleEnvioActivity : AppCompatActivity() {
         }
     }
 
-    // ---------------- PAQUETES ----------------
+
     private fun cargarPaquetes() {
 
         Ion.with(this)
@@ -174,7 +174,7 @@ class DetalleEnvioActivity : AppCompatActivity() {
         }
     }
 
-    // ---------------- ACTUALIZAR ESTATUS ----------------
+
     private fun actualizarEstatus() {
 
         val estatus = spEstatus.selectedItem.toString()
@@ -214,7 +214,7 @@ class DetalleEnvioActivity : AppCompatActivity() {
             }
     }
 
-    // ---------------- LIMPIEZA ----------------
+
     private fun limpiarPantallaSinConexion() {
 
         tvGuia.text = "Guía: Sin conexión"

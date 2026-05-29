@@ -24,7 +24,7 @@ class EditarColaboradorActivity : AppCompatActivity() {
     private var idConductor = -1
     private var fotoSeleccionada: ByteArray? = null
 
-    // Expresiones regulares equivalentes a las del cliente escritorio
+
     private val REGEX_CURP = "^[A-Z0-9]{18}$"
     private val REGEX_CORREO = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
     private val REGEX_NUMERO_PERSONAL = "^EMP[0-9]{3}$"
